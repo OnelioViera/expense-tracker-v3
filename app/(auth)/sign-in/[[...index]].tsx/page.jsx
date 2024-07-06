@@ -32,7 +32,7 @@ export default function Page() {
       </h1>
 
             <p className="mt-4 leading-relaxed text-center text-gray-500">
-              Start Creating your budget and save tons of mmoney
+              Start Creating your budget and save tons of money
             </p>
             <div className="flex text-center justify-center mt-8">
               <SignIn />
