@@ -2,13 +2,13 @@ import React from 'react'
 
 const BudgetItem = ({ budget }) => {
   return (
-    <div className='p-5 border rounded-lg'>
+    <div className='p-5 border rounded-lg hover:shadow-md cursor-pointer'>
       <div className='flex gap-2 items-center justify-between'>
         <div className='flex gap-4 items-center'>
           <h2 className='text-2xl p-3 px-3 bg-slate-100 rounded-full'>{budget?.icon}</h2>
           <div>
             <h2 className='font-semibold text-lg'>{budget.name}</h2>
-            <h2 className=''>{budget.totalItem} Item</h2>
+            <h2 className='text-sm text-gray-500'>{budget.totalItem} Item</h2>
           </div>
         </div>
         <h2 className='font-bold text-primary text-lg'> ${budget.amount}</h2>
