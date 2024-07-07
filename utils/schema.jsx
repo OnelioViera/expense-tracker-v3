@@ -11,7 +11,7 @@ export const Budgets = pgTable('budgets', {
 export const Expenses = pgTable('expenses', {
   id: serial('id').primaryKey(),
   name: varchar('name').notNull(),
-  amount: varchar('amount').notNull(),
+  amount: varchar('amount').notNull().default(0),
   budgetId: integer('budgetId').references(() => Budgets.id),
-  createdBy: varchar('createdBy').notNull(),
+  createdAt: varchar('createdAt').notNull(),
 }) 
