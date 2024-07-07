@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import SideNav from './_components/SideNav';
 import DashboardHeader from './_components/DashboardHeader';
-import { db } from '@/utils/dbConfig'; // Ensure this path is correct
+import { db } from '@/utils/dbConfig';
 import { Budgets } from '@/utils/schema';
 import { useUser } from '@clerk/nextjs';
 import { eq } from 'drizzle-orm';
