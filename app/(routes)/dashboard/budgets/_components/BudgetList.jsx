@@ -13,7 +13,7 @@ const BudgetList = () => {
 
   const [budgetList, setBudgetList] = useState([]);
   const { user } = useUser();
-  
+
   useEffect(() => {
     if (user) {
       getBudgetList();
@@ -36,7 +36,7 @@ const BudgetList = () => {
 
   return (
     <div className='mt-7'>
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5'>
         <CreateBudget />
         {budgetList.map((budget, index) => (
           <BudgetItem budget={budget} />
