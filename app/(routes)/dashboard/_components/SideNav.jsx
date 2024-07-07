@@ -14,7 +14,7 @@ const SideNav = () => {
 
   useEffect(() => {
     console.log(path)
-  }, [])
+  }, [path])
 
   const menuList = [
     {

@@ -1,19 +1,19 @@
-Install next.js without using typescript. npm create-nest-app@latest
+1. Install next.js without using typescript. npm create-nest-app@latest
 
-Install shadcn. npx shadcn-ui@latest init Select style: Default, base color: Neutral, and CSS variables for colors: yes.
+2. Install shadcn. npx shadcn-ui@latest init Select style: Default, base color: Neutral, and CSS variables for colors: yes.
 
-Install the following extensions: ES7+ React/Redux/React-Native/JS Snippets and Tailwind CSS IntelliSense.
+3. Install the following extensions: ES7+ React/Redux/React-Native/JS Snippets and Tailwind 4. CSS IntelliSense.
 
-Add custom logo using logoipsum.com
+5. Add custom logo using logoipsum.com
 
-Add Hero using hyperui.dev
+6. Add Hero using hyperui.dev
 
-Install Clerk
+7. Install Clerk
 
-Install toaster: sonner, from shadcn.
+8. Install toaster: sonner, from shadcn.
 
-Use Lucide.dev for icons.
+9. Use Lucide.dev for icons.
 
-Install NEON Serverless Postgres.
+10. Install NEON Serverless Postgres.
 
-Install Drizzle ORM.
+11. Install Drizzle ORM.
