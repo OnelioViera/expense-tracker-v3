@@ -1,17 +1,32 @@
-import React from 'react'
+'use client'
+
+import React, { useEffect } from 'react'
 import CreateBudget from './CreateBudget'
 import { db }from '@/utils/dbConfig'
 import { getTableColumns, sql } from 'drizzle-orm'
-import { Budgets } from '@/utils/schema'
+import { Budgets, Expenses } from '@/utils/schema'
+import { useUser } from '@clerk/nextjs'
+import { eq } from 'drizzle-orm'
 
 const BudgetList = () => {
+
+  const {user} = useUser();
+  user && useEffect(() => {
+    getBudgetList();
+  }, [user])
 
   const getBudgetList = async () => {
 
     const result = await db.select({
       ...getTableColumns(Budgets),
-      totalSpend: sql `sum(${Expenses.amount})`.mapWith(Number),
-    })
+      totalSpend: sql `sum(${Expenses.amount}::NUMERIC)`.mapWith(Number),
+      totalItem: sql `count(${Expenses.id})`.mapWith(Number),
+    }).from(Budgets)
+      .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
+      .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
+      .groupBy(Budgets.id);
+    
+    console.log(result);
   }
 
   return (
