@@ -13,7 +13,7 @@ const DashboardLayout = () => {
     switch (path) {
       case '/dashboard':
         setTitle('Dashboard')
-        setSubtitle('Manage Your Expenses')
+        setSubtitle('Take Control of Your Finances')
         break
       case '/dashboard/budgets':
         setTitle('Budgets')
