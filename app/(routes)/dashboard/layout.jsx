@@ -1,12 +1,41 @@
-import React from 'react'
-import SideNav from './_components/SideNav'
-import DashboardHeader from './_components/DashboardHeader'
+'use client';
 
+import React, { useEffect } from 'react';
+import SideNav from './_components/SideNav';
+import DashboardHeader from './_components/DashboardHeader';
+import { db } from '@/utils/dbConfig'; // Ensure this path is correct
+import { Budgets } from '@/utils/schema';
+import { useUser } from '@clerk/nextjs';
+import { eq } from 'drizzle-orm';
+import { useRouter } from 'next/navigation';
 
+const DashboardLayout = ({ children }) => {
+  const { user } = useUser();
+  const router = useRouter();
 
-const Dashboard = ({children}) => {
+  useEffect(() => {
+    if (user) {
+      checkUserBudgets();
+    }
+  }, [user]);
+
+  const checkUserBudgets = async () => {
+    try {
+      const result = await db.select()
+        .from(Budgets)
+        .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress ?? ''));
+
+      console.log(result);
+
+      if (result.length === 0) {
+        router.replace('/dashboard/budgets');
+      }
+    } catch (error) {
+      console.error('Error fetching budgets:', error);
+    }
+  };
+
   return (
-    
     <div>
       <div className='fixed md:w-64 hidden md:block border-r shadow-sm'>
         <SideNav />
@@ -14,9 +43,10 @@ const Dashboard = ({children}) => {
       <div className='md:ml-64'>
         <DashboardHeader />
         {children}
-        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default DashboardLayout;
+
