@@ -28,8 +28,8 @@ const DashboardLayout = () => {
         setSubtitle('Coming Soon')
         break
       default:
-        setTitle('Dashboard')
-        setSubtitle('')
+        setTitle('Expenses')
+        setSubtitle('Update Your Expenses')
     }
   }, [path])
 

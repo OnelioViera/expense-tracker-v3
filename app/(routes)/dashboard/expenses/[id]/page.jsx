@@ -51,7 +51,9 @@ const ExpensesScreen = ({ params }) => {
           <div className='h-[150px] w-full bg-slate-200 rounded-lg animate-pulse'>
             
           </div>}
-        <AddExpenses />
+        <AddExpenses budgetId={params.id}
+        user={user}
+        />
       </div>
     </div>
   )
