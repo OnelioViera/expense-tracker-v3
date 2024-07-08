@@ -7,7 +7,7 @@ import { db } from '@/utils/dbConfig'
 import { Expenses, Budgets } from '@/utils/schema'
 import { toast } from 'sonner'
 
-const AddExpenses = ({ budgetId, user }) => {
+const AddExpenses = ({ budgetId, user, refreshData }) => {
 
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
@@ -22,7 +22,9 @@ const AddExpenses = ({ budgetId, user }) => {
 
     console.log(result);
 
-    if (result) { 
+    if (result)
+    { 
+      refreshData();
       toast.success('New Expense Added!');
     }
 

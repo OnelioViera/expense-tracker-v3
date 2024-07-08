@@ -52,7 +52,8 @@ const ExpensesScreen = ({ params }) => {
             
           </div>}
         <AddExpenses budgetId={params.id}
-        user={user}
+          user={user}
+          refreshData={() => getBudgetInfo()}
         />
       </div>
     </div>
