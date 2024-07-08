@@ -16,7 +16,7 @@ const BudgetItem = ({ budget }) => {
             <h2 className='text-sm text-gray-500'>{budget.totalItem || 0} Item</h2>
           </div>
         </div>
-        <h2 className='font-bold text-primary text-lg texts-center justify-center'><span className='text-sm text-gray-500 font-light mr-2'>Budget</span> ${budget.amount || 0}</h2>
+        <h2 className='font-bold text-primary text-lg texts-center justify-center'> ${budget.amount || 0}</h2>
       </div>
       <div className='mt-5'>
         <div className='flex items-center justify-between mb-3'>
