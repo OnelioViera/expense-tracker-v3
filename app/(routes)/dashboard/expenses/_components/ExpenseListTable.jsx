@@ -17,7 +17,7 @@ const ExpenseListTable = ({ expenseList = [] }) => {
           <h2 className='text-sm text-gray-600'>$ {expense.amount}</h2>
           <h2 className='text-sm text-gray-600'>{expense.createdAt}</h2>
           <h2 className='text-md text-gray-600'>
-            <Trash className='text-red-600 cursor-pointer' />
+            <Trash className='text-red-600 cursor-pointer hover:outline hover:rounded-lg' />
           </h2>
         </div>
       ))}
