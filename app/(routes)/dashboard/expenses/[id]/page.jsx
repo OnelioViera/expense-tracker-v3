@@ -73,7 +73,7 @@ const ExpensesScreen = ({ params }) => {
       </div>
       <div className='mt-4'>
         <h2 className='font-bold text-2xl'>Latest Expenses</h2>
-        <ExpenseListTable expenseList = {expenseList} />
+        <ExpenseListTable expenseList={expenseList}  refreshData = {() => getBudgetInfo() } />
       </div>
     </div>
   )
