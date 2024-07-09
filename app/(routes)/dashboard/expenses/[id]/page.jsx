@@ -93,7 +93,7 @@ const ExpensesScreen = ({ params }) => {
 
         <div className='flex items-center gap-2'>
 
-          <EditBudget />
+          <EditBudget budgetInfo = {budgetInfo} />
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
