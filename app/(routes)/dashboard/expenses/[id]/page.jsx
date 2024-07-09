@@ -23,6 +23,8 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 
 
 
@@ -31,6 +33,7 @@ const ExpensesScreen = ({ params }) => {
   const { user } = useUser();
   const [budgetInfo, setBudgetInfo] = useState();
   const [expenseList, setExpenseList] = useState([]);
+  const route = useRouter();
 
   useEffect(() => {
     user && getBudgetInfo();
@@ -82,6 +85,8 @@ const ExpensesScreen = ({ params }) => {
         .where(eq(Budgets.id, params.id))
         .returning();
     }
+    toast('Budget Deleted!', 'success');
+    route.replace('/dashboard/budgets');
   }
 
   return (
