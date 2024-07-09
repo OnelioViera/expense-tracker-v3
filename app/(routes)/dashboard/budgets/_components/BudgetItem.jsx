@@ -30,7 +30,7 @@ const BudgetItem = ({ budget }) => {
             <h2 className='text-sm text-gray-500'>{budget.totalItem || 0} Item{budget.totalItem !== 1 && 's'}</h2>
           </div>
         </div>
-        <h2 className='font-bold text-primary text-lg text-center justify-center'>{formatCurrency(budget.amount || 0)}</h2>
+        <h2 className='font-bold text-primary text-lg text-center justify-center'>$ {formatCurrency(budget.amount || 0)}</h2>
       </div>
       <div className='mt-5'>
         <div className='flex items-center justify-between mb-3'>
