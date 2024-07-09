@@ -8,6 +8,7 @@ import { eq, desc } from 'drizzle-orm'
 import { getTableColumns, sql } from 'drizzle-orm'
 import { Expenses } from '@/utils/schema'
 import BudgetItem from '../../budgets/_components/BudgetItem'
+import EditBudget from '../_components/EditBudget'
 import AddExpenses from '../_components/AddExpenses'
 import ExpenseListTable from '../_components/ExpenseListTable'
 import { Button } from '@/components/ui/button'
@@ -25,9 +26,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
-
-
-
 
 const ExpensesScreen = ({ params }) => {
   const { user } = useUser();
@@ -93,29 +91,30 @@ const ExpensesScreen = ({ params }) => {
     <div className='p-10'>
       <h2 className='text-2xl font-bold flex justify-between items-center'>My Expenses
 
+        <div className='flex items-center gap-2'>
 
+          <EditBudget />
 
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button className="flex gap-2"
-              variant="destructive">
-              <Trash />Delete</Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your current budget along with expenses.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={() => deleteBudget()}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-
-
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button className="flex gap-2"
+                variant="destructive">
+                <Trash />Delete</Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete your current budget along with expenses.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={() => deleteBudget()}>Continue</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
 
       </h2>
       <div className='grid grid-cols-1 md:grid-cols-2 mt-6 gap-5'>
