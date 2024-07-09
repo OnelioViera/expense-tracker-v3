@@ -10,6 +10,20 @@ import { Expenses } from '@/utils/schema'
 import BudgetItem from '../../budgets/_components/BudgetItem'
 import AddExpenses from '../_components/AddExpenses'
 import ExpenseListTable from '../_components/ExpenseListTable'
+import { Button } from '@/components/ui/button'
+import { Trash } from 'lucide-react'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 
 
@@ -48,23 +62,63 @@ const ExpensesScreen = ({ params }) => {
 
 
   // Get expense list
-  const getExpenseList = async () => { 
+  const getExpenseList = async () => {
     const result = await db.select().from(Expenses)
       .where(eq(Expenses.budgetId, params.id))
       .orderBy(desc(Expenses.id));
-      setExpenseList(result);
+    setExpenseList(result);
     console.log(result);
+  }
+
+  // Delete budget
+  const deleteBudget = async () => {
+
+    const deleteExpenseResult = await db.delete(Expenses)
+      .where(eq(Expenses.budgetId, params.id))
+      .returning();
+
+    if (deleteExpenseResult) {
+      const result = await db.delete(Budgets)
+        .where(eq(Budgets.id, params.id))
+        .returning();
+    }
   }
 
   return (
     <div className='p-10'>
-      <h2 className='text-2xl font-bold'>My Expenses</h2>
+      <h2 className='text-2xl font-bold flex justify-between items-center'>My Expenses
+
+
+
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button className="flex gap-2"
+              variant="destructive">
+              <Trash />Delete</Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete your current budget along with expenses.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => deleteBudget()}>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+
+
+      </h2>
       <div className='grid grid-cols-1 md:grid-cols-2 mt-6 gap-5'>
         {budgetInfo ? <BudgetItem
           budget={budgetInfo}
         /> :
           <div className='h-[150px] w-full bg-slate-200 rounded-lg animate-pulse'>
-            
+
           </div>}
         <AddExpenses budgetId={params.id}
           user={user}
@@ -73,7 +127,7 @@ const ExpensesScreen = ({ params }) => {
       </div>
       <div className='mt-4'>
         <h2 className='font-bold text-2xl'>Latest Expenses</h2>
-        <ExpenseListTable expenseList={expenseList}  refreshData = {() => getBudgetInfo() } />
+        <ExpenseListTable expenseList={expenseList} refreshData={() => getBudgetInfo()} />
       </div>
     </div>
   )
