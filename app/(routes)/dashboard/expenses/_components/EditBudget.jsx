@@ -1,6 +1,4 @@
-'use client'
-
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { PenBox } from 'lucide-react'
 import {
@@ -22,14 +20,20 @@ import { toast } from 'sonner'
 import { eq } from 'drizzle-orm'
 import { Budgets } from '@/utils/schema'
 
-const EditBudget = ({ budgetInfo = {} }) => {
-  const [emojiIcon, setEmojiIcon] = useState(budgetInfo?.icon || '');
+function EditBudget ({ budgetInfo , refreshData}) {
+  const [emojiIcon, setEmojiIcon] = useState(budgetInfo?.icon);
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
 
-  const [name, setName] = useState(budgetInfo?.name);
-  const [amount, setAmount] = useState(budgetInfo?.amount);
+  const [name, setName] = useState(budgetInfo?.name || '');
+  const [amount, setAmount] = useState(budgetInfo?.amount || '');
 
   const { user } = useUser();
+
+  useEffect(() => { 
+    setEmojiIcon(budgetInfo?.icon)
+    setName(budgetInfo?.name)
+    setAmount(budgetInfo?.amount)
+  }, [budgetInfo]);
 
   const onUpdateBudget = async () => {
     const result = await db.update(Budgets).set({
@@ -40,11 +44,8 @@ const EditBudget = ({ budgetInfo = {} }) => {
       .where(eq(Budgets.id, budgetInfo.id))
 
     if (result) {
+      refreshData();
       toast('Budget updated successfully')
-    }
-
-    if (!budgetInfo) {
-      return <div>Loading...</div>;
     }
   }
 
@@ -65,19 +66,21 @@ const EditBudget = ({ budgetInfo = {} }) => {
                   onClick={() => setOpenEmojiPicker(!openEmojiPicker)}
                 >{emojiIcon}</Button>
 
-                <div className='absolute z-20'>
-                  <EmojiPicker
-                    open={openEmojiPicker}
-                    onEmojiClick={(e) => {
-                      setEmojiIcon(e.emoji)
-                      setOpenEmojiPicker(false)
-                    }}
-                  />
-                </div>
+                {openEmojiPicker && (
+                  <div className='absolute z-20'>
+                    <EmojiPicker
+                      onEmojiClick={(e) => {
+                        setEmojiIcon(e.emoji)
+                        setOpenEmojiPicker(false)
+                      }}
+                    />
+                  </div>
+                )}
+
                 <div className='mt-2'>
                   <h2 className='text-black font-medium my-1'>Budget Name</h2>
                   <Input placeholder='e.g. Home Decor'
-                    defaultValue={budgetInfo.name}
+                    defaultValue={budgetInfo?.name || ''}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
@@ -85,7 +88,7 @@ const EditBudget = ({ budgetInfo = {} }) => {
                   <h2 className='text-black font-medium my-1'>Budget Amount</h2>
                   <Input
                     type='number'
-                    defaultValue={budgetInfo.amount}
+                    defaultValue={budgetInfo?.amount || ''}
                     placeholder='e.g. 5000$'
                     onChange={(e) => setAmount(e.target.value)}
                   />
@@ -108,3 +111,4 @@ const EditBudget = ({ budgetInfo = {} }) => {
 }
 
 export default EditBudget;
+
