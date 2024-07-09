@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { db } from '@/utils/dbConfig'
 import { Expenses, Budgets } from '@/utils/schema'
 import { toast } from 'sonner'
+import moment from 'moment/moment'
 
 const AddExpenses = ({ budgetId, user, refreshData }) => {
 
@@ -17,7 +18,7 @@ const AddExpenses = ({ budgetId, user, refreshData }) => {
       name: name,
       amount: amount,
       budgetId: budgetId,
-      createdAt: new Date().toISOString()
+      createdAt: moment().format('DD/MM/yyyy')
     }).returning({ insertedId: Budgets.id });
 
     console.log(result);
