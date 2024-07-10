@@ -1,5 +1,3 @@
-'use client'
-
 import React, { use, useEffect } from 'react'
 import Image from 'next/image'
 import { LayoutGrid, PiggyBank, ReceiptText, ShieldCheck } from 'lucide-react'
@@ -33,13 +31,7 @@ const SideNav = () => {
       id: 3,
       name: 'Expenses',
       icon: ReceiptText,
-      path: '/dashboard/expenses/id'
-    },
-    {
-      id: 4,
-      name: 'Upgrade',
-      icon: ShieldCheck,
-      path: '/dashboard/upgrade'
+      path: '/dashboard/expenses'
     }
   ]
 
