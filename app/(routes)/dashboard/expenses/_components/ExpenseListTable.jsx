@@ -12,8 +12,7 @@ const formatAmountWithCommas = (amount) => {
   });
 };
 
-const ExpenseListTable = ({ expenseList, refreshData }) => {
-
+const ExpenseListTable = ({ expenseList = [], refreshData }) => {
   const deleteExpense = async (expense) => {
     const result = await db.delete(Expenses)
       .where(eq(Expenses.id, expense.id))
@@ -49,5 +48,6 @@ const ExpenseListTable = ({ expenseList, refreshData }) => {
 };
 
 export default ExpenseListTable;
+
 
 

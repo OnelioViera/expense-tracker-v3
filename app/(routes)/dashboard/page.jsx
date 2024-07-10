@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { UserButton, useUser } from '@clerk/nextjs'
+import { useUser } from '@clerk/nextjs'
 import CardInfo from './_components/CardInfo'
 import { useEffect, useState } from 'react'
 import { db } from '@/utils/dbConfig'
@@ -9,33 +9,39 @@ import { desc, getTableColumns, sql, eq } from 'drizzle-orm'
 import { Budgets, Expenses } from '@/utils/schema'
 import BarChartDashboard from './_components/BarChartDashboard'
 import BudgetItem from './budgets/_components/BudgetItem'
+import ExpenseListTable from './expenses/_components/ExpenseListTable'
 
 const Dashboard = () => {
 
   const { user } = useUser();
 
   const [budgetList, setBudgetList] = useState([]);
+  const [expensesList, setExpensesList] = useState([]);
 
   useEffect(() => {
     if (user) {
-      getBudgetList();
+      user && getBudgetList();
     }
   }, [user]);
 
   const getBudgetList = async () => {
+  
+      const result = await db.select({
+        ...getTableColumns(Budgets),
+        totalSpend: sql`sum(${Expenses.amount}::NUMERIC)`.mapWith(Number),
+        totalItem: sql`count(${Expenses.id})`.mapWith(Number),
+      }).from(Budgets)
+        .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
+        .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
+        .groupBy(Budgets.id)
+        .orderBy(desc(Budgets.id));
+      
+      setBudgetList(result);
+      
+  
+    }
 
-    const result = await db.select({
-      ...getTableColumns(Budgets),
-      totalSpend: sql`sum(${Expenses.amount}::NUMERIC)`.mapWith(Number),
-      totalItem: sql`count(${Expenses.id})`.mapWith(Number),
-    }).from(Budgets)
-      .leftJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
-      .where(eq(Budgets.createdBy, user?.primaryEmailAddress?.emailAddress))
-      .groupBy(Budgets.id)
-      .orderBy(desc(Budgets.id));
-    setBudgetList(result);
 
-  }
 
   return (
     <div className='p-8'>
@@ -49,8 +55,15 @@ const Dashboard = () => {
           <BarChartDashboard
           budgetList={budgetList}
           />
+
+          <ExpenseListTable
+          expensesList={expensesList}
+          refreshData={() => getBudgetList()}
+          />
+
         </div>
-        <div className='grid gap-3'>
+        <div className='grid gap-5'>
+          <h2 className='font-semibold text-lg'>Latest Budgets</h2>
           {budgetList.map((budget, index) => (
             <BudgetItem budget = {budget} key={index} />
           ))}
