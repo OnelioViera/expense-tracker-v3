@@ -26,6 +26,8 @@ const ExpenseListTable = ({ expenseList = [], refreshData }) => {
 
   return (
     <div className='mt-3'>
+        <h2 className='font-semibold text-lg mb-4'>Latest Expenses</h2>
+
       <div className='grid grid-cols-4 bg-slate-200 p-2 border-b-2 border-gray-300'>
         <h2 className='font-semibold'>Name</h2>
         <h2 className='font-semibold'>Amount</h2>

@@ -8,7 +8,6 @@ import { Budgets, Expenses } from '@/utils/schema'
 import { useUser } from '@clerk/nextjs'
 import { eq } from 'drizzle-orm'
 import BudgetItem from './BudgetItem'
-import { get } from 'node-emoji'
 
 const BudgetList = () => {
 
@@ -34,24 +33,9 @@ const BudgetList = () => {
       .orderBy(desc(Budgets.id));
     
     setBudgetList(result);
-    getAllExpenses();
 
   }
 
-    // Get all expenses that belong to the user
-    const getAllExpenses = async () => {
-      const result = await db.select({
-        id: Expenses.id,
-        name: Expenses.name,
-        amount: Expenses.amount,
-        createdAt: Expenses.createdAt,
-        
-      }).from(Budgets)
-      .rightJoin(Expenses, eq(Budgets.id, Expenses.budgetId))
-        .where(eq(Budgets.createdBy, user?.primaryEmailAddress.emailAddress))
-        .orderBy(desc(Expenses.id));
-      setExpensesList(result);
-    }
 
   return (
     <div className='mt-7'>
